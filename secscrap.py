@@ -1,13 +1,27 @@
-from bs4 import BeautifulSoup
-from urllib.request import urlopen
-import os
 import csv
+import os
+import urllib.parse as urlparse
+from io import BytesIO
+from urllib.request import urlopen
+from PIL import Image
+from bs4 import BeautifulSoup
+import requests
+
+urllink = "http://www.pondiuni.edu.in/"
 
 
-def images(url, s_No):
+def get_image_size(imgurl):
+    # to find the image size(height and   width)
+
+    data = requests.get(imgurl).content
+    im = Image.open(BytesIO(data))
+    return im.size
+
+
+def images(urlk):
 
     # Reading URL and storing <img> tag
-    r = urlopen(url).read()
+    r = urlopen(urlk).read()
     bsobj = BeautifulSoup(r)
     imgtag = bsobj.find_all('img')
 
@@ -18,23 +32,22 @@ def images(url, s_No):
 
     # Printing only required tag and value
     print("*" * 80)
-#     imgsrc = bsobj.find_all('src')
-#     for item in imgsrc:
-#         print (item)
 
     for link in imgtag:
-        filewriter(s_No, link, link.get('alt'), link.get('height'), link.
-                   get('width'))
-        yield s_No
-        s_No += 1
+        srclink = str(link.get('src'))
+        image = urlparse.urljoin(urllink, srclink)
+        width, height = get_image_size(image)
+        print(width, height)
+        filewriter(link, link.get('src'), link.get('alt'), height, width)
 
 
 def urlParse(url):
     thepage = urlopen(url)
-    soupdata = BeautifulSoup(thepage, "html.parser")
+    soupdata = BeautifulSoup(thepage, "lxml")
     return soupdata
 
-soup = urlParse('http://www.pondiuni.edu.in')
+
+soup = urlParse(urllink)
 print("#" * 80)
 extension = ('.pdf', '.doc', '.docx', '.txt', 'xls', 'xlsx')
 urldict = {}
@@ -48,46 +61,31 @@ for ur in soup.findAll('a'):
         urldict[temp] = 0
 
 print('Printing URL List.....................................')
-for key in urldict:
-    print(key, urldict[key])
+# for key in urldict:
+#    print(key, urldict[key])
 
 print("Total", len(urldict), "link printed")
 
-colHeader = ['s.no', 'url', 'alttext', 'imgheight', 'imgwidth']
-colField = {'s.no': 'S.No.', 'url': 'URL',
+colHeader = ['url', 'src', 'alttext', 'imgheight', 'imgwidth']
+colField = {'url': 'URL', 'src': 'SRC',
             'alttext': 'ALT Text', 'imgheight': 'IMG Height',
             'imgwidth': 'IMG Width'}
 
 
-def filewriter(sNo, link, altText, imghgt, imgwdt):
+def filewriter(ul, src, alt, ht, wd):
     fileName = "pondiuni" + ".csv"
     if os.access(fileName, os.F_OK):
         fileMode = 'a+'
     else:
         fileMode = 'wb'
+
     csvWriter = csv.DictWriter(open(fileName, fileMode), fieldnames=colHeader)
 
     if fileMode == 'wb':
         csvWriter.writerow(colField)
-        # csvWriter.writeheader()
-    csvWriter.writerow({'s.no': sNo, 'url': link, 'alttext': altText,
-                        'imgheight': imghgt, 'imgwidth': imgwdt})
 
-# global s_No
+    csvWriter.writerow({'url': ul, 'src': src, 'alttext': alt, 'imgheight': ht,
+                        'imgwidth': wd})
 
-# if counter[0] >1:
-    # break
-# else:
-    # counter = [1]
-# \cc@static_var('counter', 1)
-counter = 1
 for key in (x for x in urldict):
-    # global s_No\cc
-    images(key, counter)
-    # print(i,key)
-    # i += 1
-
-# with open('pondiuni.csv') as myfile:
-#     reader = csv.DictWriter(myfile)
-#     for row in reader:
-#         print(row['S.No'], row['Link'])
+    images(key)
