@@ -2,26 +2,45 @@ import csv
 import os
 import urllib.parse as urlparse
 from io import BytesIO
+# from io import StringIO
 from urllib.request import urlopen
+from urllib.error import HTTPError
+from urllib.request import Request
 from PIL import Image
 from bs4 import BeautifulSoup
-import requests
+# import cStringIO
+# import requests
 
 urllink = "http://www.pondiuni.edu.in/"
+global imgext
+imgext = ('jpeg', 'jpg', 'gif', 'GIF', 'png', 'PNG')
 
 
 def get_image_size(imgurl):
-    # to find the image size(height and   width)
+    # to find the image size(height and  width)
+    # data = requests.get(imgurl).content
+    # im = Image.open(BytesIO(data))
+    urlbytedata = None
+    try:
+        urlbytedata = urlopen(Request(imgurl, data=None, headers={'user-agent':
+                              'Mozilla/5.0 (X11; U; Linux i686) Gecko/20071127\
+                              Firefox/2.0.0.11'})). read()
+    except HTTPError as err:
+        if err.code == 404:
+            pass
+        else:
+            raise
 
-    data = requests.get(imgurl).content
-    im = Image.open(BytesIO(data))
+    data = BytesIO(urlbytedata)
+    im = Image.open(data)
     return im.size
 
 
 def images(urlk):
 
     # Reading URL and storing <img> tag
-    r = urlopen(urlk).read()
+    r = urlopen(Request(urlk, data=None, headers={'user-agent': 'Mozila'})).\
+        read()
     bsobj = BeautifulSoup(r)
     imgtag = bsobj.find_all('img')
 
@@ -35,7 +54,11 @@ def images(urlk):
 
     for link in imgtag:
         srclink = str(link.get('src'))
-        image = urlparse.urljoin(urllink, srclink)
+        # print(srclink)
+        if srclink.endswith(tuple(imgext)):
+            image = urlparse.urljoin(urllink, srclink)
+        else:
+            break
         width, height = get_image_size(image)
         print(width, height)
         filewriter(link, link.get('src'), link.get('alt'), height, width)
@@ -77,11 +100,11 @@ def filewriter(ul, src, alt, ht, wd):
     if os.access(fileName, os.F_OK):
         fileMode = 'a+'
     else:
-        fileMode = 'wb'
+        fileMode = 'w'
 
     csvWriter = csv.DictWriter(open(fileName, fileMode), fieldnames=colHeader)
 
-    if fileMode == 'wb':
+    if fileMode == 'w':
         csvWriter.writerow(colField)
 
     csvWriter.writerow({'url': ul, 'src': src, 'alttext': alt, 'imgheight': ht,
