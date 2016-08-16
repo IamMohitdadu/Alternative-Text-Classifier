@@ -1,19 +1,21 @@
 import csv
 import os
 import urllib.parse as urlparse
+from requests import get
 from io import BytesIO
-# from io import StringIO
 from urllib.request import urlopen
 from urllib.error import HTTPError
 from urllib.request import Request
 from PIL import Image
 from bs4 import BeautifulSoup
-# import cStringIO
-# import requests
 
 urllink = "http://www.pondiuni.edu.in/"
 global imgext
-imgext = ('jpeg', 'jpg', 'gif', 'GIF', 'png', 'PNG')
+imgext = ('jpeg', 'JPEG', 'jpg', 'JPG', 'gif', 'GIF', 'tiff', 'png', 'PNG')
+
+global hdrs
+hdrs = {'User-Agent': 'Mozilla / 5.0 (X11 Linux x86_64) AppleWebKit / 537.36 (\
+        KHTML, like Gecko) Chrome / 52.0.2743.116 Safari / 537.36'}
 
 
 def get_image_size(imgurl):
@@ -22,11 +24,9 @@ def get_image_size(imgurl):
     # im = Image.open(BytesIO(data))
     urlbytedata = None
     try:
-        urlbytedata = urlopen(Request(imgurl, data=None, headers={'user-agent':
-                              'Mozilla/5.0 (X11; U; Linux i686) Gecko/20071127\
-                              Firefox/2.0.0.11'})). read()
+        urlbytedata = urlopen(Request(imgurl, data=None, headers=hdrs)).read()
     except HTTPError as err:
-        if err.code == 404:
+        if ((err.code == 404) or (err.code == 500) or (err.code == 503)):
             pass
         else:
             raise
@@ -39,39 +39,61 @@ def get_image_size(imgurl):
 def images(urlk):
 
     # Reading URL and storing <img> tag
-    r = urlopen(Request(urlk, data=None, headers={'user-agent': 'Mozila'})).\
-        read()
+    r = urlopen(Request(urlk, data=None, headers=hdrs)).read()
     bsobj = BeautifulSoup(r)
-    imgtag = bsobj.find_all('img')
+    imgtag = bsobj.find_all('img')  # Finding all <img> tag
 
     # Printing all image tag
-    i = 1
-    for i in range(len(imgtag)):
-        print(i, imgtag[i])
+    print("Now printing all <img> tag one by one")
+    for i in imgtag:
+        print(i)
 
     # Printing only required tag and value
     print("*" * 80)
 
     for link in imgtag:
-        srclink = str(link.get('src'))
-        # print(srclink)
-        if srclink.endswith(tuple(imgext)):
-            image = urlparse.urljoin(urllink, srclink)
+
+        # Getting <src> attribute from <img> tag and storing it
+        if link.get('src').startswith('.'):
+            print("SRC starts with .(dot)", link.get('src'))
+            srclink = link.get('src')[1:]
+            continue
         else:
-            break
-        width, height = get_image_size(image)
+            srclink = link.get('src')
+
+        if not(srclink.endswith(tuple(imgext))):
+            print("SRC tag doesn't end with image extention", srclink)
+            continue
+
+        # print(srclink)
+        imgurl = urlparse.urljoin(urllink, srclink)
+        imgurl = imgurl.replace(' ', '%20')
+
+        if get(imgurl).status_code == 404 or get(imgurl).status_code == 500:
+            if get(imgurl).status_code == 404:
+                print("URL %s is an INVALID URL" % imgurl)
+            elif get(imgurl).status_code == 500:
+                print("Internal Server Error with URL %s" % imgurl)
+            print("Skiping to next link in <imgtag>")
+            continue
+        else:
+            print("No Error Code for image url.. Proceeding to fetch image-size")
+
+        print("Image URL", imgurl)
+        width, height = get_image_size(imgurl)
         print(width, height)
         filewriter(link, link.get('src'), link.get('alt'), height, width)
 
 
 def urlParse(url):
-    thepage = urlopen(url)
+    thepage = urlopen(Request(url, data=None, headers=hdrs))
     soupdata = BeautifulSoup(thepage, "lxml")
     return soupdata
 
 
 soup = urlParse(urllink)
 print("#" * 80)
+
 extension = ('.pdf', '.doc', '.docx', '.txt', 'xls', 'xlsx')
 urldict = {}
 temp = []
@@ -83,7 +105,7 @@ for ur in soup.findAll('a'):
        extension))))):
         urldict[temp] = 0
 
-print('Printing URL List.....................................')
+# print('Printing URL List.....................................')
 # for key in urldict:
 #    print(key, urldict[key])
 
@@ -105,8 +127,9 @@ def filewriter(ul, src, alt, ht, wd):
     csvWriter = csv.DictWriter(open(fileName, fileMode), fieldnames=colHeader)
 
     if fileMode == 'w':
-        csvWriter.writerow(colField)
+        csvWriter.writerow(colField)  # Writing Column Header
 
+    # writing each row with data
     csvWriter.writerow({'url': ul, 'src': src, 'alttext': alt, 'imgheight': ht,
                         'imgwidth': wd})
 
