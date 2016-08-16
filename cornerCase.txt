@@ -1,15 +1,18 @@
 
-
 # image file name in <src> attribute is not a valid image file or no image file name at all.
 
 0 <img alt="" class="icon" src="http://14.139.183.115/moodle/theme/image.php/serenity/forum/1431344488/icon"/>
 1 <img alt="Forum" class="smallicon navicon" src="http://14.139.183.115/moodle/theme/image.php/serenity/forum/1431344488/icon" title="Forum"/>
 2 <img alt="PU Logo" height="89" src="http://10.10.80.5/admin/images/pu_logo.png" style="display: block; margin-left: auto; margin-right: auto;" width="88"/>
 3 <img alt="moodlelogo" src="http://14.139.183.115/moodle/theme/image.php/serenity/core/1431344488/moodlelogo" style="width:100px;height:30px"/>
+
+
 ============================================================
 0 <img alt="" class="freebirdFormviewerViewItemsEmbeddedobjectImage" src="https://lh6.googleusercontent.com/i6uYyH84r6I15HIprfJ9d7cX7SJPuSbgWrOA7YFhfp1Wm37kT8PnPdqfPr2-OJEiZuIcm8Kgxw" style="width: 872px; " title=""/>
 1 <img alt="Google Forms" src="//ssl.gstatic.com/docs/forms/google_forms_logo_lockup_2.svg"/>
 ********************************************************************************
+
+
 SRC tag doesn't end with image extention https://lh6.googleusercontent.com/i6uYyH84r6I15HIprfJ9d7cX7SJPuSbgWrOA7YFhfp1Wm37kT8PnPdqfPr2-OJEiZuIcm8Kgxw
 SRC tag doesn't end with image extention //ssl.gstatic.com/docs/forms/google_forms_logo_lockup_2.svg
 =============================================================
@@ -23,6 +26,7 @@ http://www.pondiuni.edu.in/sites/default/files/imagecache/circular_innerimage/Va
 
 
 SRC starts with .(dot) ./images/logo.gif
+
 
 
 #Image file name contain space
