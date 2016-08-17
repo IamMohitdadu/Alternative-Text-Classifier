@@ -37,10 +37,17 @@ def get_image_size(imgurl):
 
 
 def images(urlk):
+    print("\n", urlk)
 
     # Reading URL and storing <img> tag
-    r = urlopen(Request(urlk, data=None, headers=hdrs)).read()
-    bsobj = BeautifulSoup(r)
+    r = get(urlk)
+    statusCode = r.status_code
+    if statusCode == 503:
+        print("Internal Server Error..! Error Code: %d!" % statusCode)
+        return
+
+    print(statusCode)
+    bsobj = BeautifulSoup(r.content)
     imgtag = bsobj.find_all('img')  # Finding all <img> tag
 
     # Printing all image tag
@@ -55,7 +62,7 @@ def images(urlk):
 
         # Getting <src> attribute from <img> tag and storing it
         if link.get('src').startswith('.'):
-            print("SRC starts with .(dot)", link.get('src'))
+            print("Invalid <src> path: starts with .(dot)", link.get('src'))
             srclink = link.get('src')[1:]
             continue
         else:
@@ -85,13 +92,13 @@ def images(urlk):
         filewriter(link, link.get('src'), link.get('alt'), height, width)
 
 
-def urlParse(url):
+def urlFetch(url):
     thepage = urlopen(Request(url, data=None, headers=hdrs))
     soupdata = BeautifulSoup(thepage, "lxml")
     return soupdata
 
 
-soup = urlParse(urllink)
+soup = urlFetch(urllink)
 print("#" * 80)
 
 extension = ('.pdf', '.doc', '.docx', '.txt', 'xls', 'xlsx')
