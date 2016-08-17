@@ -38,8 +38,8 @@ def get_image_size(imgurl):
 
 def images(urlk):
     print("\n", urlk)
+
     # Reading URL and storing <img> tag
-    # r = urlopen(Request(urlk, data=None, headers=hdrs)).read()
     r = get(urlk)
     statusCode = r.status_code
     if statusCode == 503:
@@ -92,13 +92,13 @@ def images(urlk):
         filewriter(link, link.get('src'), link.get('alt'), height, width)
 
 
-def urlParse(url):
+def urlFetch(url):
     thepage = urlopen(Request(url, data=None, headers=hdrs))
     soupdata = BeautifulSoup(thepage, "lxml")
     return soupdata
 
 
-soup = urlParse(urllink)
+soup = urlFetch(urllink)
 print("#" * 80)
 
 extension = ('.pdf', '.doc', '.docx', '.txt', 'xls', 'xlsx')
