@@ -1,7 +1,7 @@
 import csv
 import os
 import urllib.parse as urlparse
-from requests import get
+import requests
 from io import BytesIO
 from urllib.request import urlopen
 from urllib.error import HTTPError
@@ -39,7 +39,7 @@ def images(urlk):
     print("\n", urlk)
 
     # Reading URL and storing <img> tag
-    r = get(urlk)
+    r = requests.get(urlk, headers=hdrs, verify=False)
     statusCode = r.status_code
     
     if statusCode == 503:
@@ -58,27 +58,30 @@ def images(urlk):
     print("*" * 80)
 
     for link in imgtag:
-
-        # Getting <src> attribute from <img> tag and storing it
-        if link.get('src').startswith('.'):
-            print("Invalid <src> path: starts with .(dot)", link.get('src'))
-            srclink = link.get('src')[1:]
+        print(link.get('src'))
+        if (link.get('src'))==None:
             continue
         else:
-            srclink = link.get('src')
+            # Getting <src> attribute from <img> tag and storing it
+            if (link.get('src')).startswith('.'):
+                print("Invalid <src> path: starts with .(dot)", link.get('src'))
+                srclink = link.get('src')[1:]
+                continue
+            else:
+                srclink = link.get('src')
 
-        if not(srclink.endswith(tuple(imgext))):
-           print("SRC tag doesn't end with image extention", srclink)
-           continue
+            if not(srclink.endswith(tuple(imgext))):
+               print("SRC tag doesn't end with image extention", srclink)
+               continue
 
         # print(srclink)
         imgurl = urlparse.urljoin(urllink, srclink)
         imgurl = imgurl.replace(' ', '%20')
 
-        if get(imgurl).status_code == 404 or get(imgurl).status_code == 500:
-            if get(imgurl).status_code == 404:
+        if requests.get(imgurl).status_code == 404 or requests.get(imgurl).status_code == 500:
+            if requests.get(imgurl, verify=False).status_code == 404:
                 print("URL %s is an INVALID URL" % imgurl)
-            elif get(imgurl).status_code == 500:
+            elif requests.get(imgurl, verify=False).status_code == 500:
                 print("Internal Server Error with URL %s" % imgurl)
 
             print("Skiping to next link in <imgtag>")
@@ -102,14 +105,14 @@ def images(urlk):
 def urlFetch(url):
     global urllink
     urllink = url
-    thepage = get(url)
+    thepage = requests.get(url, verify=False)
     pageStatus=thepage.status_code
 
     if ((pageStatus == 404) or (pageStatus == 500) or (pageStatus == 503)):
             pass
 
     soupdata = BeautifulSoup(thepage.content)
-    return subUrlFetch(soupdata)
+    subUrlFetch(soupdata)
 
 
 # soup = urlFetch(urllink)
@@ -123,8 +126,8 @@ temp = []
 def subUrlFetch(soup):
     for ur in soup.findAll('a'):
         temp = ur.get('href')
-        if (str(temp).startswith('http') and (not(str(temp).endswith(tuple(
-           extension))))):
+        temp = str(temp)
+        if (temp.startswith('http') and (not(temp.endswith(tuple(extension))))):
             urldict[temp] = 0
     print("Total", len(urldict), "link printed")
     for key in (x for x in urldict):
