@@ -62,17 +62,19 @@ def images(urlk):
         if (link.get('src'))==None:
             continue
         else:
-            # Getting <src> attribute from <img> tag and storing it
-            if (link.get('src')).startswith('.'):
-                print("Invalid <src> path: starts with .(dot)", link.get('src'))
-                srclink = link.get('src')[1:]
-                continue
-            else:
-                srclink = link.get('src')
+            pass
 
-            if not(srclink.endswith(tuple(imgext))):
-               print("SRC tag doesn't end with image extention", srclink)
-               continue
+        # Getting <src> attribute from <img> tag and storing it
+        if (link.get('src')).startswith('.'):
+            print("Invalid <src> path: starts with .(dot)", link.get('src'))
+            srclink = link.get('src')[1:]
+            continue
+        else:
+            srclink = link.get('src')
+
+        if not(srclink.endswith(tuple(imgext))):
+           print("SRC tag doesn't end with a valid image extention", srclink)
+           continue
 
         # print(srclink)
         imgurl = urlparse.urljoin(urllink, srclink)
@@ -89,7 +91,7 @@ def images(urlk):
         else:
             print("No Error Code for image url.. Proceeding to fetch image-size")
 
-        print("Image URL", imgurl)
+        print("Image URL is : ", imgurl)
         imgheight = link.get('height')
         imgwidth = link.get('width')
 
