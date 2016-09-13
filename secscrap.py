@@ -78,7 +78,7 @@ def images(urlk):
         imgurl = urlparse.urljoin(urllink, srclink)
         imgurl = imgurl.replace(' ', '%20')
 
-        if requests.get(imgurl).status_code == 404 or requests.get(imgurl).status_code == 500:
+        if requests.get(imgurl, verify=False).status_code == 404 or requests.get(imgurl, verify=False).status_code == 500:
             if requests.get(imgurl, verify=False).status_code == 404:
                 print("URL %s is an INVALID URL" % imgurl)
             elif requests.get(imgurl, verify=False).status_code == 500:
