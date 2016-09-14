@@ -97,7 +97,7 @@ http://escortigdir.xyz
 http://www.puduvaivaani.edu.in/
 
 ===============================================================================
-
+####################RESOLVED############################
 http://aucoe.info/
 Traceback (most recent call last):
 ssl.SSLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:600)
@@ -107,3 +107,89 @@ requests.packages.urllib3.exceptions.SSLError: [SSL: CERTIFICATE_VERIFY_FAILED] 
 File "C:\Python34\lib\site-packages\requests\adapters.py", line 431, in send
     raise SSLError(e, request=request)
 requests.exceptions.SSLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:600)
+
+#########################################################
+
+===============================================================================
+UNABLE TO FETCH IMAGE SIZE.
+
+http://jntuk.edu.in/vcdesk/assets//templates/vcdesk/images/icon_gallery.gif
+No Error Code for image url.. Proceeding to fetch image-size
+Image URL is :  http://jntuk.edu.in/vcdesk/assets//templates/vcdesk/images/icon_gallery.gif
+http://jntuk.edu.in/vcdesk/assets//templates/vcdesk/images/icon_videos.gif
+No Error Code for image url.. Proceeding to fetch image-size
+Image URL is :  http://jntuk.edu.in/vcdesk/assets//templates/vcdesk/images/icon_videos.gif
+http://jntuk.edu.in/vcdesk/assets//templates/vcdesk/images/icon_audio.gif
+No Error Code for image url.. Proceeding to fetch image-size
+Image URL is :  http://jntuk.edu.in/vcdesk/assets//templates/vcdesk/images/icon_audio.gif
+
+
+
+assets/templates/jntutemplates/images/banner_career.jpg
+No Error Code for image url.. Proceeding to fetch image-size
+Image URL is :  http://www.jntuk.edu.in/assets/templates/jntutemplates/images/banner_career.jpg
+assets/templates/jntutemplates/images/banner_industry.jpg
+No Error Code for image url.. Proceeding to fetch image-size
+Image URL is :  http://www.jntuk.edu.in/assets/templates/jntutemplates/images/banner_industry.jpg
+http://server4.web-stat.com/3/al231078.gif
+No Error Code for image url.. Proceeding to fetch image-size
+Image URL is :  http://server4.web-stat.com/3/al231078.gif
+1 1
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+http://www.jntua.ac.in
+Total 48 link printed
+
+
+No Error Code for image url.. Proceeding to fetch image-size
+Image URL is :  http://www.jntuk.edu.in/assets/images/edzelogo.gif
+assets/snippets/kalender/themes/gold/images/next_over.gif
+No Error Code for image url.. Proceeding to fetch image-size
+Image URL is :  http://www.jntuk.edu.in/assets/snippets/kalender/themes/gold/images/next_over.gif
+assets/snippets/kalender/themes/gold/images/jump_over.gif
+No Error Code for image url.. Proceeding to fetch image-size
+Image URL is :  http://www.jntuk.edu.in/assets/snippets/kalender/themes/gold/images/jump_over.gif
+assets/images/new_old.gif
+
+===============================================================================
+
+https://www.google.com/adsense/support/bin/request.py?contact=abg_afc&hideleadgen=1
+
+SSL error urlopen error EOF occurred in violation of protocol (_ssl.c:600)T
+
+
++++++++++Taking too much time to read by requests.get++++++++++++
+http://192.168.99.20/aau/?q=book/animal-biotechnology-0
+http://192.168.99.20/aau/?q=book/veterinary-public-health-0
+http://192.168.99.20/aau/?q=book/livestock-production-and-management
+http://192.168.99.20/aau/?q=book/veterinary-clinical-medicine-ethics-jurisprudence
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+++++++++++URL not returning any image size, despite it being a valid url++++++++
+http://www.dibru.ac.in/sliderimg/35.jpg
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+================================================================================
+
+++++++++++++++++++++++++HTTPS warning++++++++++++++++++++++++++++++++++++++++++
+Skiping to next link in <imgtag>
+
+ http://www.svimstpt.ap.nic.in/
+Internal Server Error..! Error Code: 503!
+
+ http://www.sedo.com/services/parking.php3?language=e&partnerid=20293
+/usr/local/lib/python3.4/dist-packages/requests/packages/urllib3/connectionpool.py:838: InsecureRequestWarning: Unverified HTTPS request is being made. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/security.html
+  InsecureRequestWarning)
+/usr/local/lib/python3.4/dist-packages/requests/packages/urllib3/connectionpool.py:838: InsecureRequestWarning: Unverified HTTPS request is being made. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/security.html
+  InsecureRequestWarning)
+Now printing all <img> tag one by one
+<img alt="" height="1082" src="https://cdn.sedo.com/fileadmin/user_upload/Park_Domains/Domain-Parking.jpg" width="1420"/>
+<img alt="" height="1082" src="https://cdn.sedo.com/fileadmin/user_upload/Park_Domains/Domain-Parking-Profis.jpg" width="1420"/>
+<img alt="" height="1082" src="https://cdn.sedo.com/fileadmin/user_upload/Park_Domains/Parking_50-50_1420x1082_EN.jpg" width="1420"/>
+<img alt="" height="1082" src="https://cdn.sedo.com/fileadmin/user_upload/Park_Domains/Parking_einrichten.jpg" width="1420"/>
+<img alt="" height="1082" src="https://cdn.sedo.com/fileadmin/user_upload/Sell_Domains/Domain_Auction/FAQ.jpg" width="1420"/>
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+=================================================================================
+
+++++++++++++++++URL takes forever to send reply [BAD GATEWAY]++++++++++++++++++++
+http://www.svvedicuniversity.org/cloud/news/pics/recruiters/infosys.png
