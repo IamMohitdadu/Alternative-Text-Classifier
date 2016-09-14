@@ -15,6 +15,8 @@ imgext = ('jpeg', 'JPEG', 'jpg', 'JPG', 'gif', 'GIF', 'tiff', 'png', 'PNG')
 global hdrs
 hdrs = {'User-Agent': 'Mozilla / 5.0 (X11 Linux x86_64) AppleWebKit / 537.36 (\
         KHTML, like Gecko) Chrome / 52.0.2743.116 Safari / 537.36'}
+global errorcode
+errorcode = (404, 500, 502, 503)
 
 
 def get_image_size(imgurl):
@@ -22,35 +24,58 @@ def get_image_size(imgurl):
     # data = requests.get(imgurl).content
     # im = Image.open(BytesIO(data))
     urlbytedata = None
+    '''
     try:
         urlbytedata = urlopen(Request(imgurl, data=None, headers=hdrs)).read()
     except HTTPError as err:
-        if ((err.code == 404) or (err.code == 500) or (err.code == 503)):
+        if err.code in errorcode:
             pass
         else:
             raise
+    '''
+    if imgurl.startswith('https'):
+        req = requests.get(imgurl, verify=True,
+                           headers=hdrs, allow_redirects=True)
+    else:
+        req = requests.get(imgurl, verify=False,
+                           headers=hdrs, allow_redirects=True)
 
-    data = BytesIO(urlbytedata)
-    im = Image.open(data)
-    return im.size
+    if imgurl == req.url:
+        urlbytedata = BytesIO(req.content)
+        try:
+            im = Image.open(urlbytedata)
+            return im.size
+        except IOError as err:
+            print("IOError :", str(err))
+            return (None, None)
+    else:
+        print("URL %s gets redirected...." % imgurl)
+        return(None, None)
 
 
 def images(urlk):
     print("\n", urlk)
 
     # Reading URL and storing <img> tag
-    r = requests.get(urlk, headers=hdrs, verify=False)
-    statusCode = r.status_code
-    
-    if statusCode == 503:
-        print("Internal Server Error..! Error Code: %d!" % statusCode)
+    if ('facebook.com' in urlk or 'youtube.com' in urlk):
         return
+    else:
+        if urlk.startswith('https'):
+            r = requests.get(urlk, headers=hdrs, verify=True)
+            statusCode = r.status_code
+        else:
+            r = requests.get(urlk, headers=hdrs, verify=False)
+            statusCode = r.status_code
+
+        if statusCode == 503:
+            print("Internal Server Error..! Error Code: %d!" % statusCode)
+            return
 
     bsobj = BeautifulSoup(r.content)
     imgtag = bsobj.find_all('img')  # Finding all <img> tag
 
     # Printing all image tag
-    print("Now printing all <img> tag one by one")
+    print("Now Printing all <img> tag one by one")
     for i in imgtag:
         print(i)
 
@@ -59,7 +84,7 @@ def images(urlk):
 
     for link in imgtag:
         print(link.get('src'))
-        if (link.get('src'))==None:
+        if (link.get('src')) == None:
             continue
         else:
             pass
@@ -73,18 +98,28 @@ def images(urlk):
             srclink = link.get('src')
 
         if not(srclink.endswith(tuple(imgext))):
-           print("SRC tag doesn't end with a valid image extention", srclink)
-           continue
+            print("SRC tag doesn't end with a valid image extention", srclink)
+            continue
 
         # print(srclink)
         imgurl = urlparse.urljoin(urllink, srclink)
         imgurl = imgurl.replace(' ', '%20')
+        if imgurl.startswith('https'):
+            statusCode = requests.get(
+                imgurl, verify=True, headers=hdrs).status_code
+        else:
+            statusCode = requests.get(
+                imgurl, verify=False, headers=hdrs).status_code
 
-        if requests.get(imgurl, verify=False).status_code == 404 or requests.get(imgurl, verify=False).status_code == 500:
-            if requests.get(imgurl, verify=False).status_code == 404:
+        if statusCode in errorcode:
+            if statusCode == 404:
                 print("URL %s is an INVALID URL" % imgurl)
-            elif requests.get(imgurl, verify=False).status_code == 500:
+            elif statusCode == 500:
                 print("Internal Server Error with URL %s" % imgurl)
+            elif statusCode == 502:
+                print("Bad Gateway......Error with URL %s" % imgurl)
+            elif statusCode == 503:
+                print("Service Unavailable....Error with URL %s" % imgurl)
 
             print("Skiping to next link in <imgtag>")
             continue
@@ -95,23 +130,27 @@ def images(urlk):
         imgheight = link.get('height')
         imgwidth = link.get('width')
 
-        if not (imgheight and imgwidth):
+        if not(imgheight and imgwidth):
             width, height = get_image_size(imgurl)
-            print(width, height)
+            print(height, width)
         else:
             width, height = imgwidth, imgheight
-            
+            print(height, width)
+
         filewriter(link, link.get('src'), link.get('alt'), height, width)
 
 
 def urlFetch(url):
     global urllink
     urllink = url
-    thepage = requests.get(url, verify=False)
-    pageStatus=thepage.status_code
+    if url.startswith('https'):
+        thepage = requests.get(url, verify=True, headers=hdrs)
+    else:
+        thepage = requests.get(url, verify=False, headers=hdrs)
+    pageStatus = thepage.status_code
 
-    if ((pageStatus == 404) or (pageStatus == 500) or (pageStatus == 503)):
-            pass
+    if pageStatus in errorcode:
+        pass
 
     soupdata = BeautifulSoup(thepage.content)
     subUrlFetch(soupdata)
@@ -124,8 +163,9 @@ extension = ('.pdf', '.doc', '.docx', '.txt', 'xls', 'xlsx')
 urldict = {}
 temp = []
 
-# Fetching all sub-url from root domain
+
 def subUrlFetch(soup):
+    # Fetching all sub-url from root domain
     for ur in soup.findAll('a'):
         temp = ur.get('href')
         temp = str(temp)
@@ -157,5 +197,3 @@ def filewriter(ul, src, alt, ht, wd):
     csvWriter.writerow({'url': ul, 'src': src, 'alttext': alt, 'imgheight': ht,
                         'imgwidth': wd})
     return
-
-
