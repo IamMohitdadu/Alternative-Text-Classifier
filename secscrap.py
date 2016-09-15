@@ -1,5 +1,6 @@
 import csv
 import os
+import time
 import urllib.parse as urlparse
 import requests
 from io import BytesIO
@@ -17,6 +18,10 @@ hdrs = {'User-Agent': 'Mozilla / 5.0 (X11 Linux x86_64) AppleWebKit / 537.36 (\
         KHTML, like Gecko) Chrome / 52.0.2743.116 Safari / 537.36'}
 global errorcode
 errorcode = (404, 500, 502, 503)
+global urlNonedu
+urlNonedu = ['google.com', 'youtube.com', 'facebook.com',
+             'twitter.com', 'escortigdir.xyz', 'escortgaziantep.xyz', 'sedo.com', 'web-stat.com', 'gstatic.com', 'maruticomputers', 'supercounters.com',
+             'gate-2016.in', 'easycounter.com']
 
 
 def get_image_size(imgurl):
@@ -33,12 +38,11 @@ def get_image_size(imgurl):
         else:
             raise
     '''
-    if imgurl.startswith('https'):
-        req = requests.get(imgurl, verify=True,
-                           headers=hdrs, allow_redirects=True)
-    else:
-        req = requests.get(imgurl, verify=False,
-                           headers=hdrs, allow_redirects=True)
+    # if imgurl.startswith('https'):
+    req = requests.get(imgurl, verify=True, headers=hdrs, allow_redirects=True)
+    # else:
+    #     req = requests.get(imgurl, verify=False,
+    #                        headers=hdrs, allow_redirects=True)
 
     if imgurl == req.url:
         urlbytedata = BytesIO(req.content)
@@ -54,22 +58,26 @@ def get_image_size(imgurl):
 
 
 def images(urlk):
-    print("\n", urlk)
+    print('\n')
+    print(urlk)
 
     # Reading URL and storing <img> tag
-    if ('facebook.com' in urlk or 'youtube.com' in urlk):
+    if any(domain in urlk for domain in urlNonedu):
+        print("Non-edu url found....skipping to next url")
         return
     else:
-        if urlk.startswith('https'):
-            r = requests.get(urlk, headers=hdrs, verify=True)
-            statusCode = r.status_code
-        else:
-            r = requests.get(urlk, headers=hdrs, verify=False)
-            statusCode = r.status_code
+        # if urlk.startswith('https'):
+            # try:
+        r = requests.get(urlk, headers=hdrs, verify=True)
+        statusCode = r.status_code
+        # except:
+        # else:
+        # r = requests.get(urlk, headers=hdrs, verify=False)
+        # statusCode = r.status_code
 
-        if statusCode == 503:
-            print("Internal Server Error..! Error Code: %d!" % statusCode)
-            return
+    if statusCode == 503:
+        print("Internal Server Error..! Error Code: %d!" % statusCode)
+        return
 
     bsobj = BeautifulSoup(r.content)
     imgtag = bsobj.find_all('img')  # Finding all <img> tag
@@ -104,12 +112,13 @@ def images(urlk):
         # print(srclink)
         imgurl = urlparse.urljoin(urllink, srclink)
         imgurl = imgurl.replace(' ', '%20')
-        if imgurl.startswith('https'):
-            statusCode = requests.get(
-                imgurl, verify=True, headers=hdrs).status_code
-        else:
-            statusCode = requests.get(
-                imgurl, verify=False, headers=hdrs).status_code
+        time.sleep(5)
+        # if imgurl.startswith('https'):
+        statusCode = requests.get(
+            imgurl, headers=hdrs, verify=True).status_code
+        # else:
+        #     statusCode = requests.get(
+        #         imgurl, headers=hdrs, verify=False).status_code
 
         if statusCode in errorcode:
             if statusCode == 404:
@@ -143,14 +152,14 @@ def images(urlk):
 def urlFetch(url):
     global urllink
     urllink = url
-    if url.startswith('https'):
-        thepage = requests.get(url, verify=True, headers=hdrs)
-    else:
-        thepage = requests.get(url, verify=False, headers=hdrs)
+    # if url.startswith('https'):
+    thepage = requests.get(url, verify=True, headers=hdrs)
+    # else:
+    # thepage = requests.get(url, verify=False, headers=hdrs)
     pageStatus = thepage.status_code
 
     if pageStatus in errorcode:
-        pass
+        return
 
     soupdata = BeautifulSoup(thepage.content)
     subUrlFetch(soupdata)
