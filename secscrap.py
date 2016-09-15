@@ -21,7 +21,7 @@ errorcode = (404, 500, 502, 503)
 global urlNonedu
 urlNonedu = ['google.com', 'youtube.com', 'facebook.com',
              'twitter.com', 'escortigdir.xyz', 'escortgaziantep.xyz', 'sedo.com', 'web-stat.com', 'gstatic.com', 'maruticomputers', 'supercounters.com',
-             'gate-2016.in', 'easycounter.com']
+             'gate-2016.in', 'easycounter.com', 'ugc.ac', 'eands.dacnet.ac', 'jgateplus.com', 'openid.net', 'delcon.gov', 'asapglobe.com']
 
 
 def get_image_size(imgurl):
@@ -66,14 +66,13 @@ def images(urlk):
         print("Non-edu url found....skipping to next url")
         return
     else:
-        # if urlk.startswith('https'):
-            # try:
-        r = requests.get(urlk, headers=hdrs, verify=True)
-        statusCode = r.status_code
-        # except:
-        # else:
-        # r = requests.get(urlk, headers=hdrs, verify=False)
-        # statusCode = r.status_code
+        try:
+            r = requests.get(urlk, headers=hdrs, verify=True, timeout=30)
+            statusCode = r.status_code
+        except requests.exceptions.Timeout as e:
+            print("Timeout Error :", str(e))
+            print("Moving to next url in urldict")
+            return
 
     if statusCode == 503:
         print("Internal Server Error..! Error Code: %d!" % statusCode)
@@ -114,8 +113,12 @@ def images(urlk):
         imgurl = imgurl.replace(' ', '%20')
         time.sleep(5)
         # if imgurl.startswith('https'):
-        statusCode = requests.get(
-            imgurl, headers=hdrs, verify=True).status_code
+        try:
+            statusCode = requests.get(
+                imgurl, headers=hdrs, verify=True, timeout=30).status_code
+        except requests.exceptions.Timeout:
+            print
+            continue
         # else:
         #     statusCode = requests.get(
         #         imgurl, headers=hdrs, verify=False).status_code
