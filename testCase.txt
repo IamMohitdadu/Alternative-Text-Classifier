@@ -193,3 +193,109 @@ Now printing all <img> tag one by one
 
 ++++++++++++++++URL takes forever to send reply [BAD GATEWAY]++++++++++++++++++++
 http://www.svvedicuniversity.org/cloud/news/pics/recruiters/infosys.png
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+third party urls found:
+
+SRC tag doesn't end with a valid image extention http://www.hit-counts.com/counter.php?t=MTMzMDAxMA==
+http://www.freehitcountercodes.com/counter.php?id=36
+href="http://gaberic.org/39.html
+http://www.jssor.com
+https://www.onlinesbi.com/prelogin/icollecthome.htm?corpID=480044
+http://www.ugc.ac.in
+https://www.google.com/search?hl=en&gl=us&tbm=nws&authuser=0&q=andhra+university&oq=andhra+university
+(andhrauniversity)http://www.aknudoa.in
+https://www.facebook.com/andhrauniversitydotedudotin/
+http://twitter.com/andhrauniversit
+http://wowslider.com/vu
+http://www.educationbihar.gov.in/
+http://governor.bih.nic.in/
+http://portal.gujarat.gov.in
+http://www.naac.gov.in/
+http://logicopedia.in/
+http://mhrd.gov.in/
+http://india.gov.in/
+http://www.gujaratindia.com/
+http://www.gswan.gov.in/
+http://www.gujaratinformatics.com/
+http://agri.gujarat.gov.in/
+http://www.imd.gov.in
+http://agri.ikhedut.aau.in/
+http://in.linkedin.com
+http://www.icar.org.in/
+http://www.sphererays.com/
+http://mysy.guj.nic.in/
+http://www.indiaveterinarycommunity.com/
+http://faq.ikhedut.aau.in/
+http://dare.nic.in
+http://gsauca.in/
+http://www.icar.org.in/
+http://financedepartment.gujarat.gov.in
+//////
+ http://ecourses.iasri.res.in/
+  http://www.vibrantgujarat.com/
+ http://shc.gujarat.gov.in/
+http://www.vidyalakshmi.co.in/
+ http://nisagenet.iasri.res.in/
+ http://www.ceo.gujarat.gov.in
+http://www.docs.google.com
+ http://www.continuouseduayu.com/ksharasutra.html
+ http://www.webinfinium.com
+ http://www.clat.ac.in/
+ https://goo.gl/forms/2EZMRjliOVDjIazT2
+sphererays.com','mysy.guj.nic.in',\
+    'indiaveterinarycommunity.com',
+    'dare.nic.in','gad.gujarat.gov.in',
+    'gsauca.in','faq.ikhedut.aau.in',\
+    'ecourses.iasri.res.in','icar.org.in',
+    'financedepartment.gujarat.gov.in',
+    'scholarships.gov.in',\
+    'nisagenet.iasri.res.in','gov.in',
+    'co.in','vibrantgujarat.com','shc.gujarat.gov.in',\
+    'vidyalakshmi.co.in','gmail.com']
+
+
+return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+UnicodeEncodeError: 'charmap' codec can't encode character '\u200f' in position 259: character maps to <undefined>
+[Finished in 1714.1s with exit code 1]
+
+warning::
+Image URL is :  http://aucoe.info/assets/images/logo_ico.png
+C:\Python34\lib\site-packages\requests\packages\urllib3\connectionpool.py:768: InsecureRequestWarning: Unverified HTTPS request is being made. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.org/en/latest/security.html
+  InsecureRequestWarning)
+URL http://aucoe.info/assets/images/logo_ico.png gets redirected....
+None None
+SRC tag doesn't end with a valid image extention //shield.sitelock.com/shield/aucoe.info
+
+
+ {
+ http://www.gtu.ac.in
+ Default.aspx
+Default.aspx
+page.aspx?p=AboutUs
+page.aspx?p=AboutUs
+page.aspx?p=TheVc
+VCMsgList.aspx
+page.aspx?p=Administration
+Achievements.aspx
+Affilation.aspx }
+
+http://www.jau.in
+	http://www.youtube.com//user/jaujnd
+	/
+	/index.php/academics-top
+	/coa
+	/coaa
+	/caet
+	/cof
+	/covs
+	/PGIABM
+	None
+  File "C:\Users\mohit\Documents\miniproject\secscrap.py", line 191, in subUrlFetch
+    if (temp.startswith('http') and (not(temp.endswith(tuple(extension))))):
+AttributeError: 'NoneType' object has no attribute 'startswith'
+
+UnicodeEncodeError: 'charmap' codec can't encode characters in position 12-14: character maps to <undefined>
+
+
