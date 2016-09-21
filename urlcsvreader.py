@@ -12,8 +12,15 @@ with open('urls.csv') as f:
             # based on column name k
 #print(columns['University Name'])
 print(columns['URL'])
-
+global i
+i=0
 for urllist in columns['URL']:
+    if not(urllist):
+    	continue
+    else:
+    	pass
+    i=i+1
     print("$" * 80)
+    print("url {} fetching from csv file".format(i))
     print(urllist)
     secscrap.urlFetch(urllist)
