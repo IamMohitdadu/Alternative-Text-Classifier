@@ -299,3 +299,17 @@ AttributeError: 'NoneType' object has no attribute 'startswith'
 UnicodeEncodeError: 'charmap' codec can't encode characters in position 12-14: character maps to <undefined>
 
 
+===============================================================================
+check the  .. in url. url looks right after checking on website, but not opening
+
+http://ntruhs.ap.nic.in/../Admissions/2016/pg/detailednotificationPGVacant.htm ++++ suburl ++++
+
+ http://ntruhs.ap.nic.in/../Admissions/2016/pg/detailednotificationPGVacant.htm
+Internal Server Error..! Error Code: 503!
+================================================================================
+
+To confirm about this being a university - http://nisagenet.iasri.res.in/Search.aspx
+
+This contains list of agriculture university across India.
+
+================================================================================
