@@ -12,7 +12,7 @@ from PIL import Image
 from bs4 import BeautifulSoup
 
 # to disable the Unverified HTTPS request "InsecureRequestWarning" warning
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning) 
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
 global imgext
@@ -21,26 +21,31 @@ imgext = ('jpeg', 'JPEG', 'jpg', 'JPG', 'gif', 'GIF', 'tiff', 'png', 'PNG')
 global hdrs
 hdrs = {'User-Agent': 'Mozilla / 5.0 (X11 Linux x86_64) AppleWebKit / 537.36 (\
         KHTML, like Gecko) Chrome / 52.0.2743.116 Safari / 537.36'}
+
+global certpath
+certpath = 'gd_bundle-g2-g1.crt'
 global extension
-extension = ('.pdf', '.doc', '.docx', '.txt', '.xls', '.xlsx','.css')
+extension = ('.pdf', '.doc', '.docx', '.txt', '.xls', '.xlsx', '.css')
 
 colHeader = ['imageurl', 'url', 'src', 'alttext', 'imgheight', 'imgwidth']
-colField = {'imageurl':'IMAGE URL','url': 'URL', 'src': 'SRC',
+colField = {'imageurl': 'IMAGE URL', 'url': 'URL', 'src': 'SRC',
             'alttext': 'ALT Text', 'imgheight': 'IMG Height',
             'imgwidth': 'IMG Width'}
 
 global errorcode
 errorcode = (404, 500, 502, 503)
 
-urlNonEdu=['facebook.com','youtube.com','onlinesbi.com','gaberic.org','jssor.com','2glux.com',\
-    'freehitcountercodes.com','ugc.ac.in','hit-counts.com','twitter.com','wowslider.com',\
-    'google.com','bih.nic.in','gov.in','clat.ac.in','sphererays.com','mysy.guj.nic.in',\
-    'gujaratinformatics.com','agri.ikhedut.aau.in','icar.org.in','in.linkedin.com','icar.org.in'\
-    'logicopedia.in','gujaratindia.com','gsauca.in','dare.nic.in','faq.ikhedut.aau.in',\
-    'indiaveterinarycommunity.com','iasri.res.in','vibrantgujarat.com','vidyalakshmi.co.in',\
-    'gmail.com','escortigdir.xyz', 'escortgaziantep.xyz', 'sedo.com', 'web-stat.com', 'gstatic.com',\
-    'maruticomputers', 'supercounters.com','gate-2016.in', 'easycounter.com', 'eands.dacnet.ac',\
-    'jgateplus.com', 'openid.net', 'delcon.gov', 'asapglobe.com','life-global.org','edcastcloud.com']
+global urlNonEdu
+urlNonEdu = ['facebook.com', 'youtube.com', 'onlinesbi.com', 'gaberic.org', 'jssor.com', '2glux.com',
+             'freehitcountercodes.com', 'ugc.ac.in', 'hit-counts.com', 'twitter.com', 'wowslider.com',
+             'google.com', 'bih.nic.in', 'gov.in', 'clat.ac.in', 'sphererays.com', 'mysy.guj.nic.in',
+             'gujaratinformatics.com', 'agri.ikhedut.aau.in', 'icar.org.in', 'linkedin.com', 'icar.org.in'
+             'logicopedia.in', 'gujaratindia.com', 'gsauca.in', 'dare.nic.in', 'faq.ikhedut.aau.in',
+             'indiaveterinarycommunity.com', 'iasri.res.in', 'vibrantgujarat.com', 'vidyalakshmi.co.in',
+             'gmail.com', 'escortigdir.xyz', 'escortgaziantep.xyz', 'sedo.com', 'web-stat.com', 'gstatic.com',
+             'maruticomputers', 'supercounters.com', 'gate-2016.in', 'easycounter.com', 'eands.dacnet.ac',
+             'jgateplus.com', 'openid.net', 'delcon.gov', 'asapglobe.com', 'life-global.org', 'edcastcloud.com',
+             'nssanu.org', 'goo.gl', 'webinfinium.com', 'gujaratinformatics.com', 'aiu.ac.in']
 
 
 def get_image_size(imgurl):
@@ -48,21 +53,8 @@ def get_image_size(imgurl):
     # data = requests.get(imgurl).content
     # im = Image.open(BytesIO(data))
     urlbytedata = None
-    '''
-    try:
-        urlbytedata = urlopen(Request(imgurl, data=None, headers=hdrs)).read()
-    except HTTPError as err:
-        if err.code in errorcode:
-            pass
-        else:
-            raise
-    '''
-    #if imgurl.startswith('https'):
-    req = requests.get(imgurl, verify=True,
+    req = requests.get(imgurl, verify=certpath,
                        headers=hdrs, allow_redirects=True)
-    #else:
-    #    req = requests.get(imgurl, verify=False,
-    #                       headers=hdrs, allow_redirects=True)
 
     if imgurl == req.url:
         urlbytedata = BytesIO(req.content)
@@ -73,19 +65,19 @@ def get_image_size(imgurl):
             print("IOError :", str(err))
             return (None, None)
     else:
-        print("URL %s gets redirected...." %imgurl)
+        print("URL %s gets redirected...." % imgurl)
         return(None, None)
 
 
 def images(urlk,):
     print("\n", urlk)
-        # Reading URL and storing <img> tag
+    # Reading URL and storing <img> tag
     if any(domain in urlk for domain in urlNonEdu):
         print("Non-edu url found....skipping to next url")
         return
     else:
         try:
-            r = requests.get(urlk, headers=hdrs, verify=True, timeout=30)
+            r = requests.get(urlk, verify=certpath, headers=hdrs, timeout=30)
             statusCode = r.status_code
         except requests.exceptions.Timeout as e:
             print("Timeout Error :", str(e))
@@ -96,9 +88,9 @@ def images(urlk,):
         print("Internal Server Error..! Error Code: %d!" % statusCode)
         return
 
-    #imgtag=souping(r)
-    bsobj = BeautifulSoup(r.content)
-    imgtag = bsobj.find_all('img')  # Finding all <img> tag
+    # soupdata = souping(r)
+    soupdata = BeautifulSoup(r.content)
+    imgtag = soupdata.find_all('img')  # Finding all <img> tag
 
     print(len(imgtag), "+++imglinks+++")
     for link in imgtag:
@@ -117,7 +109,7 @@ def images(urlk,):
             srclink = link.get('src')
 
         if not(srclink.endswith(tuple(imgext))):
-            print("xxxxx [%s] SRC tag doesn't end with a valid image extention xxxxx" % srclink)
+            print("xxxxx SRC tag doesn't end with a valid image extention xxxxx", srclink)
             continue
 
         print(srclink)
@@ -126,15 +118,16 @@ def images(urlk,):
         time.sleep(5)
         try:
             statusCode = requests.get(
-                imgurl, headers=hdrs, verify=True, timeout=30).status_code
-        except requests.exceptions.Timeout:
-            print
+                imgurl, verify=certpath, headers=hdrs, timeout=30).status_code
+        except requests.exceptions.Timeout as e:
+            print("Timeout Error!", str(e))
             continue
 
         print(statusCode)
         if statusCode in errorcode:
             if statusCode == 404:
-                print("URL [ %s ] is an INVALID URL(not found on the server)" % imgurl)
+                print(
+                    "URL [ %s ] is an INVALID URL(not found on the server)" % imgurl)
             elif statusCode == 500:
                 print("Internal Server Error with URL %s" % imgurl)
             elif statusCode == 502:
@@ -158,35 +151,39 @@ def images(urlk,):
             width, height = imgwidth, imgheight
             print(height, width)
 
-        if height and width:
-            filewriter(imgurl, link, link.get('src'), link.get('alt'), height, width)
+        # if height and width:
+        filewriter(imgurl, link, link.get('src'),
+                   link.get('alt'), height, width)
 
 
 def souping(url):
-    thepage=requests.get(url)
-    soupdata = BeautifulSoup(thepage.content)
-    return soupdata
+    result = list()
+    urlResponse = requests.get(url, verify=certpath, headers=hdrs)
+    result.append(urlResponse.statusCode)
+    result.append(BeautifulSoup(urlResponse.content))
+    return result
 
 
 def urlFetch(url):
-    urldict = []
+    urlList = []
     tmp = []
     print("-------------------------------------------------------------------------")
     images(url)
     print("-------------------------------------------------------------------------")
     # Fetching all sub-url from root domain
-    thepage = requests.get(url, verify=True, headers=hdrs)
-    pageStatus = thepage.status_code
+    thepage = requests.get(url, verify=certpath, headers=hdrs)
+    statusCode = thepage.status_code
 
-    if pageStatus in errorcode:
+    if statusCode in errorcode:
         return
 
-    soup=souping(url)
-    
-    print('a')
-    for ur in soup.findAll('a'):
+    # soupdata = souping(url)
+    soupdata = BeautifulSoup(thepage.content)
+
+    print('<a> tag')
+    for ur in soupdata.findAll('a'):
         temp = ur.get('href')
-        temp=str(temp)
+        temp = str(temp)
         print(temp)
         '''
         if (temp.startswith('http') and (not(temp.endswith(tuple(extension))))):
@@ -197,13 +194,13 @@ def urlFetch(url):
             if (temp.startswith('http')):
                 tmp.append(temp)
             else:
-                temp=urlparse.urljoin(url, temp)
+                temp = urlparse.urljoin(url, temp)
                 tmp.append(temp)
 
-    print("link")
-    for ur in soup.findAll('link'):
+    print("<link> tag")
+    for ur in soupdata.findAll('link'):
         temp = ur.get('href')
-        #print(temp)
+        # print(temp)
         '''
         if (temp.startswith('http') and (not(temp.endswith(tuple(extension))))):
             print(temp)
@@ -213,20 +210,21 @@ def urlFetch(url):
             if (temp.startswith('http')):
                 tmp.append(temp)
             else:
-                temp=urlparse.urljoin(url, temp)
+                temp = urlparse.urljoin(url, temp)
                 tmp.append(temp)
-        
-    urldict=list(set(tmp))
-    print("Total", len(urldict), "link printed")
 
-    for key in (x for x in urldict):
+    urlList = list(set(tmp))
+    print("Total", len(urlList), "link printed")
+
+    for key in (x for x in urlList):
         print(key, "++++ suburl ++++")
         if (key.startswith('mailto')):
             continue
         try:
-            statusCd = requests.get(key, headers=hdrs, verify=True, timeout=30).status_code
-        except requests.exceptions.Timeout:
-            print("timeout")
+            statusCode = requests.get(
+                key, verify=certpath, headers=hdrs, timeout=30).status_code
+        except requests.exceptions.Timeout as e:
+            print("Timeout error!", str(e))
             continue
         images(key)
 
@@ -243,10 +241,10 @@ def filewriter(imgul, ul, src, alt, ht, wd):
     if fileMode == 'w':
         csvWriter.writerow(colField)  # Writing Column Header
 
-    if alt==" ":
+    if alt == " ":
         alt = "Alt text not defined"
 
     # writing each row with data
-    csvWriter.writerow({'imageurl':imgul, 'url': ul, 'src': src, 'alttext': alt, 'imgheight': ht,
+    csvWriter.writerow({'imageurl': imgul, 'url': ul, 'src': src, 'alttext': alt, 'imgheight': ht,
                         'imgwidth': wd})
     return
