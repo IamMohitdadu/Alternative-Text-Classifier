@@ -24,6 +24,7 @@ hdrs = {'User-Agent': 'Mozilla / 5.0 (X11 Linux x86_64) AppleWebKit / 537.36 (\
 
 global certpath
 certpath = 'gd_bundle-g2-g1.crt'
+
 global extension
 extension = ('.pdf', '.doc', '.docx', '.txt', '.xls', '.xlsx', '.css')
 
@@ -45,19 +46,25 @@ urlNonEdu = ['facebook.com', 'youtube.com', 'onlinesbi.com', 'gaberic.org', 'jss
              'gmail.com', 'escortigdir.xyz', 'escortgaziantep.xyz', 'sedo.com', 'web-stat.com', 'gstatic.com',
              'maruticomputers', 'supercounters.com', 'gate-2016.in', 'easycounter.com', 'eands.dacnet.ac',
              'jgateplus.com', 'openid.net', 'delcon.gov', 'asapglobe.com', 'life-global.org', 'edcastcloud.com',
-             'nssanu.org', 'goo.gl', 'webinfinium.com', 'gujaratinformatics.com', 'aiu.ac.in']
+             'nssanu.org', 'goo.gl', 'webinfinium.com', 'gujaratinformatics.com', 'aiu.ac.in', 'apmedco.com']
 
 
 def get_image_size(imgurl):
-    # to find the image size(height and  width)
+    '''
+    Find the image size(height and  width)
+    '''
     # data = requests.get(imgurl).content
     # im = Image.open(BytesIO(data))
     urlbytedata = None
-    req = requests.get(imgurl, verify=certpath,
-                       headers=hdrs, allow_redirects=True)
+    try:
+        responseObject = requests.get(imgurl, verify=certpath,
+                                      headers=hdrs, timeout=30, allow_redirects=True)
+    except requests.exceptions.Timeout as e:
+        print("Time out Error while fetching image-size", str(e))
+        return(None, None)
 
-    if imgurl == req.url:
-        urlbytedata = BytesIO(req.content)
+    if imgurl == responseObject.url:
+        urlbytedata = BytesIO(responseObject.content)
         try:
             im = Image.open(urlbytedata)
             return im.size
@@ -171,14 +178,14 @@ def urlFetch(url):
     images(url)
     print("-------------------------------------------------------------------------")
     # Fetching all sub-url from root domain
-    thepage = requests.get(url, verify=certpath, headers=hdrs)
-    statusCode = thepage.status_code
+    responseObject = requests.get(url, verify=certpath, headers=hdrs)
+    statusCode = responseObject.status_code
 
     if statusCode in errorcode:
         return
 
     # soupdata = souping(url)
-    soupdata = BeautifulSoup(thepage.content)
+    soupdata = BeautifulSoup(responseObject.content)
 
     print('<a> tag')
     for ur in soupdata.findAll('a'):
@@ -219,6 +226,9 @@ def urlFetch(url):
     for key in (x for x in urlList):
         print(key, "++++ suburl ++++")
         if (key.startswith('mailto')):
+            continue
+        elif any(domain in key for domain in urlNonEdu):
+            print("Non-edu url found....skipping to next url")
             continue
         try:
             statusCode = requests.get(
