@@ -12,7 +12,7 @@ from PIL import Image
 from bs4 import BeautifulSoup
 
 # to disable the Unverified HTTPS request "InsecureRequestWarning" warning
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+# requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
 global imgext
@@ -46,19 +46,23 @@ urlNonEdu = ['facebook.com', 'youtube.com', 'onlinesbi.com', 'gaberic.org', 'jss
              'gmail.com', 'escortigdir.xyz', 'escortgaziantep.xyz', 'sedo.com', 'web-stat.com', 'gstatic.com',
              'maruticomputers', 'supercounters.com', 'gate-2016.in', 'easycounter.com', 'eands.dacnet.ac',
              'jgateplus.com', 'openid.net', 'delcon.gov', 'asapglobe.com', 'life-global.org', 'edcastcloud.com',
-             'nssanu.org', 'goo.gl', 'webinfinium.com', 'gujaratinformatics.com', 'aiu.ac.in', 'apmedco.com']
+             'nssanu.org', 'goo.gl', 'webinfinium.com', 'gujaratinformatics.com', 'aiu.ac.in', 'apmedco.com',
+             'nityahosting.com', 'rcsindia.co.in', 'aiuweb.org', 'appgecet.org', 'solventindia.com', 'javascript']
 
 
 def get_image_size(imgurl):
     '''
-    Find the image size(height and  width)
+    Find the image size(height and width)
     '''
     # data = requests.get(imgurl).content
     # im = Image.open(BytesIO(data))
     urlbytedata = None
     try:
-        responseObject = requests.get(imgurl, verify=certpath,
-                                      headers=hdrs, timeout=30, allow_redirects=True)
+        responseObject = requests.get(
+            imgurl, verify=certpath, headers=hdrs, timeout=30, allow_redirects=True)
+    except requests.exceptions.SSLError:
+        responseObject = requests.get(
+            imgurl, verify=True, headers=hdrs, timeout=30, allow_redirects=True)
     except requests.exceptions.Timeout as e:
         print("Time out Error while fetching image-size", str(e))
         return(None, None)
@@ -84,8 +88,13 @@ def images(urlk,):
         return
     else:
         try:
-            r = requests.get(urlk, verify=certpath, headers=hdrs, timeout=30)
-            statusCode = r.status_code
+            responseObject = requests.get(
+                urlk, verify=certpath, headers=hdrs, timeout=30)
+            statusCode = responseObject.status_code
+        except requests.exceptions.SSLError:
+            responseObject = requests.get(
+                urlk, verify=True, headers=hdrs, timeout=30)
+            statusCode = responseObject.status_code
         except requests.exceptions.Timeout as e:
             print("Timeout Error :", str(e))
             print("Moving to next url in urldict")
@@ -96,8 +105,8 @@ def images(urlk,):
         return
 
     # soupdata = souping(r)
-    soupdata = BeautifulSoup(r.content)
-    imgtag = soupdata.find_all('img')  # Finding all <img> tag
+    soupdata = BeautifulSoup(responseObject.content)
+    imgtag = soupdata.find_all('img') # Finding all <img> tag
 
     print(len(imgtag), "+++imglinks+++")
     for link in imgtag:
@@ -126,6 +135,9 @@ def images(urlk,):
         try:
             statusCode = requests.get(
                 imgurl, verify=certpath, headers=hdrs, timeout=30).status_code
+        except requests.exceptions.SSLError:
+            statusCode = requests.get(
+                imgurl, verify=True, headers=hdrs, timeout=30).status_code
         except requests.exceptions.Timeout as e:
             print("Timeout Error!", str(e))
             continue
@@ -178,7 +190,10 @@ def urlFetch(url):
     images(url)
     print("-------------------------------------------------------------------------")
     # Fetching all sub-url from root domain
-    responseObject = requests.get(url, verify=certpath, headers=hdrs)
+    try:
+        responseObject = requests.get(url, verify=certpath, headers=hdrs)
+    except requests.exceptions.SSLError:
+        responseObject = requests.get(url, verify=True, headers=hdrs)
     statusCode = responseObject.status_code
 
     if statusCode in errorcode:
@@ -230,9 +245,13 @@ def urlFetch(url):
         elif any(domain in key for domain in urlNonEdu):
             print("Non-edu url found....skipping to next url")
             continue
+
         try:
             statusCode = requests.get(
                 key, verify=certpath, headers=hdrs, timeout=30).status_code
+        except requests.exceptions.SSLError:
+            statusCode = requests.get(
+                key, verify=True, headers=hdrs, timeout=30).status_code
         except requests.exceptions.Timeout as e:
             print("Timeout error!", str(e))
             continue
@@ -249,7 +268,7 @@ def filewriter(imgul, ul, src, alt, ht, wd):
     csvWriter = csv.DictWriter(open(fileName, fileMode), fieldnames=colHeader)
 
     if fileMode == 'w':
-        csvWriter.writerow(colField)  # Writing Column Header
+        csvWriter.writerow(colField) # Writing Column Header
 
     if alt == " ":
         alt = "Alt text not defined"
