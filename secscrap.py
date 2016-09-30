@@ -38,20 +38,10 @@ errorcode = (404, 500, 502, 503)
 
 global url_list
 url_list=[]
-'''
-global urlNonEdu
-urlNonEdu = ['facebook.com', 'youtube.com', 'onlinesbi.com', 'gaberic.org', 'jssor.com', '2glux.com',
-             'freehitcountercodes.com', 'ugc.ac.in', 'hit-counts.com', 'twitter.com', 'wowslider.com',
-             'google.com', 'bih.nic.in', 'gov.in', 'clat.ac.in', 'sphererays.com', 'mysy.guj.nic.in',
-             'gujaratinformatics.com', 'agri.ikhedut.aau.in', 'icar.org.in', 'linkedin.com', 'icar.org.in'
-             'logicopedia.in', 'gujaratindia.com', 'gsauca.in', 'dare.nic.in', 'faq.ikhedut.aau.in',
-             'indiaveterinarycommunity.com', 'iasri.res.in', 'vibrantgujarat.com', 'vidyalakshmi.co.in',
-             'gmail.com', 'escortigdir.xyz', 'escortgaziantep.xyz', 'sedo.com', 'web-stat.com', 'gstatic.com',
-             'maruticomputers', 'supercounters.com', 'gate-2016.in', 'easycounter.com', 'eands.dacnet.ac',
-             'jgateplus.com', 'openid.net', 'delcon.gov', 'asapglobe.com', 'life-global.org', 'edcastcloud.com',
-             'nssanu.org', 'goo.gl', 'webinfinium.com', 'gujaratinformatics.com', 'aiu.ac.in', 'apmedco.com',
-             'nityahosting.com', 'rcsindia.co.in', 'aiuweb.org', 'appgecet.org', 'solventindia.com', 'javascript']
-'''
+
+global imgLinkLists
+imgLinkLists=[]
+
 
 def get_image_size(imgurl):
     #    Find the image size(height and  width)
@@ -85,19 +75,7 @@ def get_image_size(imgurl):
 def images(urlk,):
     print("\n", urlk)
     # Reading URL and storing <img> tag
-    '''
-    if any(domain in urlk for domain in urlNonEdu):
-        print("Non-edu url found....skipping to next url")
-        return
-    else:
-        try:
-            r = requests.get(urlk, verify=certpath, headers=hdrs, timeout=30)
-            statusCode = r.status_code
-        except requests.exceptions.Timeout as e:
-            print("Timeout Error :", str(e))
-            print("Moving to next url in urldict")
-            return
-    '''
+
     try:
         responseObject = requests.get(urlk, verify=certpath, headers=hdrs, timeout=30)
         statusCode = responseObject.status_code
@@ -139,6 +117,13 @@ def images(urlk,):
 
         print(srclink)
         imgurl = urlparse.urljoin(urlk, srclink)
+
+        if imgurl in imgLinkLists:
+            print("DUPLICATE IMAGE FOUND")
+            continue
+        else:
+            imgLinkLists.append(imgurl)
+
         imgurl = imgurl.replace(' ', '%20')
         time.sleep(5)
         try:
@@ -185,14 +170,6 @@ def images(urlk,):
                    link.get('alt'), height, width)
     return
 
-'''
-def souping(url):
-    result = list()
-    urlResponse = requests.get(url, verify=certpath, headers=hdrs)
-    result.append(urlResponse.statusCode)
-    result.append(BeautifulSoup(urlResponse.content))
-    return result
-'''
 
 def url_crawler(url):
     
@@ -202,25 +179,18 @@ def url_crawler(url):
 
     try:
         responseObject = requests.get(url, verify=certpath, headers=hdrs, timeout=30)
+        statusCode=responseObject.status_code
     except requests.exceptions.SSLError:
-        responseObject = requests.get(url, verify=True, headers=hdrs)
-    statusCode=responseObject.status_code
+        responseObject = requests.get(url, verify=True, headers=hdrs, timeout=30)
+        statusCode=responseObject.status_code
+    except requests.exceptions.Timeout as e:
+        print("Timeout Error!", str(e))
+        return
+
+    
     if statusCode in errorcode:
         return
-    '''
-    except requests.exceptions.Timeout as e:
-        print("Timeout error!", str(e))
-        return
-    '''
     
-    # Fetching all sub-url from root domain
-    #responseObject = requests.get(url, verify=certpath, headers=hdrs, timeout=30)
-    #statusCode = responseObject.status_code
-
-    #if statusCode in errorcode:
-    #    return
-
-    # soupdata = souping(url)
     soupdata = BeautifulSoup(responseObject.content)
 
     for tags in soupdata.findAll('a'):
@@ -263,11 +233,7 @@ def url_fetch(urs):
 '''
     for key in (x for x in urlList):
         print(key, "++++ suburl ++++")
-        if (key.startswith('mailto')):
-            continue
-        elif any(domain in key for domain in urlNonEdu):
-            print("Non-edu url found....skipping to next url")
-            continue
+        
         try:
             statusCode = requests.get(
                 key, verify=certpath, headers=hdrs, timeout=30).status_code
