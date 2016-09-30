@@ -14,13 +14,18 @@ with open('urls.csv') as f:
 print(columns['URL'])
 global i
 i=0
-for urllist in columns['URL']:
-    if not(urllist):
+
+#secscrap.url_fetch("http://www.pondiuni.edu.in")
+
+for url in columns['URL']:
+    if not(url):
     	continue
     else:
     	pass
     i=i+1
     print("$" * 80)
     print("url {} fetching from csv file".format(i))
-    print(urllist)
-    secscrap.urlFetch(urllist)
+    print(url)
+    #secscrap.urlFetch(urllist)
+    secscrap.url_fetch(url)
+    secscrap.url_list=[]
