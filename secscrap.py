@@ -26,7 +26,7 @@ global certpath
 certpath = 'gd_bundle-g2-g1.crt'
 
 global extension
-extension = ('.pdf', '.doc', '.docx', '.txt', '.xls', '.xlsx', '.css', '.zip')
+extension = ('.pdf', '.doc', '.docx', '.txt', '.xls', '.xlsx', '.css', '.zip','.PDF')
 
 colHeader = ['imageurl', 'url', 'src', 'alttext', 'imgheight', 'imgwidth']
 colField = {'imageurl': 'IMAGE URL', 'url': 'URL', 'src': 'SRC',
@@ -43,24 +43,24 @@ global imgLinkLists
 imgLinkLists=[]
 
 
-def get_image_size(imgurl):
-    #    Find the image size(height and  width)
-    
+def get_image_size(imgurl, responseObj, nextUrl):
+    '''
+    Find the image size(height and width)
+    '''
     # data = requests.get(imgurl).content
     # im = Image.open(BytesIO(data))
     urlbytedata = None
+    '''
     try:
         responseObject = requests.get(imgurl, verify=certpath,
-                                      headers=hdrs, timeout=30, allow_redirects=True)
-    except requests.exceptions.SSLError:
-        responseObject = requests.get(imgurl, verify=True, headers=hdrs,
-                                       timeout=30, allow_redirects=True)
+                                    headers=hdrs, timeout=30, allow_redirects=True)
     except requests.exceptions.Timeout as e:
         print("Time out Error while fetching image-size", str(e))
         return(None, None)
+    '''
 
-    if imgurl == responseObject.url:
-        urlbytedata = BytesIO(responseObject.content)
+    if imgurl == nextUrl:
+        urlbytedata = BytesIO(responseObj.content)
         try:
             im = Image.open(urlbytedata)
             return im.size
@@ -75,13 +75,9 @@ def get_image_size(imgurl):
 def images(urlk,):
     print("\n", urlk)
     # Reading URL and storing <img> tag
-
     try:
-        responseObject = requests.get(urlk, verify=certpath, headers=hdrs, timeout=30)
-        statusCode = responseObject.status_code
-    except requests.exceptions.SSLError:
-        responseObject = requests.get(urlk, verify=True, headers=hdrs, timeout=30)
-        statusCode = responseObject.status_code
+        r = requests.get(urlk, verify=certpath, headers=hdrs, timeout=30)
+        statusCode = r.status_code
     except requests.exceptions.Timeout as e:
         print("Timeout Error :", str(e))
         print("Moving to next url in urldict")
@@ -92,10 +88,10 @@ def images(urlk,):
         return
 
     # soupdata = souping(r)
-    soupdata = BeautifulSoup(responseObject.content)
-    imgtag = soupdata.find_all('img')  # Finding all <img> tag
+    soupdata = BeautifulSoup(r.content)
+    imgtag = soupdata.find_all('img') # Finding all <img> tag
 
-    print(len(imgtag), "+++imglinks+++")
+    print("****** ", len(imgtag), "imges found *******")
     for link in imgtag:
         #print(urlk + "/" + link.get('src'))
         if (link.get('src')) == None:
@@ -115,9 +111,8 @@ def images(urlk,):
             print("xxxxx SRC tag doesn't end with a valid image extention xxxxx", srclink)
             continue
 
-        print(srclink)
+        print("\n<SRC>tag link :", srclink)
         imgurl = urlparse.urljoin(urlk, srclink)
-
         if imgurl in imgLinkLists:
             print("DUPLICATE IMAGE FOUND")
             continue
@@ -127,16 +122,20 @@ def images(urlk,):
         imgurl = imgurl.replace(' ', '%20')
         time.sleep(5)
         try:
-            statusCode = requests.get(
-                imgurl, verify=certpath, headers=hdrs, timeout=30).status_code
-        except requests.exceptions.SSLError:
-            statusCode = requests.get(
-                imgurl, verify=True, headers=hdrs, timeout=30).status_code
+            responseObj = requests.get(
+                imgurl, verify=certpath, headers=hdrs, timeout=30, allow_redirects=True)
+            statusCode = responseObj.status_code
+            nextUrl = responseObj.url
+        except requests.exceptions.SSLError as e:
+            responseObj = requests.get(
+                imgurl, verify=True, headers=hdrs, timeout=30, allow_redirects=True)
+            statusCode = responseObj.status_code
+            nextUrl = responseObj.url
         except requests.exceptions.Timeout as e:
             print("Timeout Error!", str(e))
             continue
 
-        print(statusCode)
+        # print(statusCode)
         if statusCode in errorcode:
             if statusCode == 404:
                 print(
@@ -158,44 +157,59 @@ def images(urlk,):
         imgwidth = link.get('width')
 
         if not(imgheight and imgwidth):
-            width, height = get_image_size(imgurl)
-            print(height, width)
+            width, height = get_image_size(imgurl, responseObj, nextUrl)
         else:
             width, height = imgwidth, imgheight
-            print(height, width)
-        if (height == None or width == None):
+        print("image Height : ", height)
+        print("image Width  : ", width)
+
+        if (height == None or width == None):  
+            # height and width not found
             continue
-        
+
+        # Writes when height and Width found 
         filewriter(imgurl, link, link.get('src'),
                    link.get('alt'), height, width)
     return
 
+'''
+def souping(url):
+    result = list()
+    urlResponse = requests.get(url, verify=certpath, headers=hdrs)
+    result.append(urlResponse.statusCode)
+    result.append(BeautifulSoup(urlResponse.content))
+    return result
+'''
 
 def url_crawler(url):
-    
-    print("-------------------------------------------------------------------------")
+    '''
+    Crawling website to find all Sub Links
+    '''
+    print("-------------------------Searching For Images-------------------------")
     images(url)
-    print("-------------------------------------------------------------------------")
+    print("-------------------------END Searching images-------------------------")
 
     try:
         responseObject = requests.get(url, verify=certpath, headers=hdrs, timeout=30)
-        statusCode=responseObject.status_code
-    except requests.exceptions.SSLError:
-        responseObject = requests.get(url, verify=True, headers=hdrs, timeout=30)
-        statusCode=responseObject.status_code
-    except requests.exceptions.Timeout as e:
-        print("Timeout Error!", str(e))
-        return
+        statusCode = responseObject.status_code
+        if statusCode in errorcode:
+            return
 
-    
-    if statusCode in errorcode:
+    except requests.exceptions.Timeout as e:
+        print("Timeout error!", str(e))
         return
     
+    # Fetching all sub-url from root domain
+    #responseObject = requests.get(url, verify=certpath, headers=hdrs, timeout=30)
+    #statusCode = responseObject.status_code
+
+    # soupdata = souping(url)
     soupdata = BeautifulSoup(responseObject.content)
 
-    for tags in soupdata.findAll('a'):
+    for tags in soupdata.findAll('a'):  # Souping all <a href> tag
         linktag = str(tags.get('href'))
-        #print(temp)
+        # print("<a href> tag> ", linktag)
+        '''
         if (linktag.startswith('/') and (not(linktag.endswith(tuple(extension))))):
             if ('=' not in linktag):
                 abslink=urlparse.urljoin(url, linktag)
@@ -204,6 +218,13 @@ def url_crawler(url):
                     print(abslink)
         else: 
             continue
+        '''
+        abslink = urlparse.urljoin(url, linktag)
+        #print("Absolute Link after join with seed link: ", abslink)
+        if ((str(url) in abslink) and (not(abslink.endswith(tuple(extension))))):
+            if (abslink not in url_list):
+                url_list.append(abslink)
+                print("New link added to list", abslink)
         '''
         if (temp.startswith('http') and (not(temp.endswith(tuple(extension))))):
             print(temp)
@@ -220,20 +241,22 @@ def url_crawler(url):
     return
 
 
-def url_fetch(urs):
-    url_list.append(urlparse.urljoin(urs,"/"))
-    for ur in url_list:
-        print("+++++++++++++++++++++++++++++++++")
-        print(ur)
-        print("+++++++++++++++++++++++++++++++++")
-        url_crawler(ur)
-    print("Total", len(url_list), "link printed")
-
+def url_fetch(mainUrl):
+    url_list.append(urlparse.urljoin(mainUrl,"/"))
+    for url in url_list:
+        print("========================New Sub Url========================")
+        print(url)
+        url_crawler(url)
+    print("Total", len(url_list), "sub link printed")
 
 '''
     for key in (x for x in urlList):
         print(key, "++++ suburl ++++")
-        
+        if (key.startswith('mailto')):
+            continue
+        elif any(domain in key for domain in urlNonEdu):
+            print("Non-edu url found....skipping to next url")
+            continue
         try:
             statusCode = requests.get(
                 key, verify=certpath, headers=hdrs, timeout=30).status_code
@@ -244,7 +267,7 @@ def url_fetch(urs):
 '''
 
 def filewriter(imgul, ul, src, alt, ht, wd):
-    fileName = "pondiuni" + ".csv"
+    fileName = "dataset" + ".csv"
     if os.access(fileName, os.F_OK):
         fileMode = 'a+'
     else:
