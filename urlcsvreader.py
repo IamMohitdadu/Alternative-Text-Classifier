@@ -20,8 +20,7 @@ i=0
 for url in columns['URL']:
     if not(url):
     	continue
-    else:
-    	pass
+    
     i=i+1
     print("$" * 80)
     print("url {} fetching from csv file".format(i))
