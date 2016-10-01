@@ -313,3 +313,32 @@ To confirm about this being a university - http://nisagenet.iasri.res.in/Search.
 This contains list of agriculture university across India.
 
 ================================================================================
+
+date : 1/10/2016
+
+http://www.jntuk.edu.in/jntukbharatstudentcom/
+Traceback (most recent call last):
+  File "C:\Python34\lib\site-packages\requests\packages\urllib3\connectionpool.py", line 589, in urlopen
+    self._prepare_proxy(conn)
+  File "C:\Python34\lib\site-packages\requests\packages\urllib3\connectionpool.py", line 797, in _prepare_proxy
+    conn.connect()
+  File "C:\Python34\lib\site-packages\requests\packages\urllib3\connection.py", line 289, in connect
+    ssl_version=resolved_ssl_version)
+  File "C:\Python34\lib\site-packages\requests\packages\urllib3\util\ssl_.py", line 308, in ssl_wrap_socket
+    return context.wrap_socket(sock, server_hostname=server_hostname)
+  File "C:\Python34\lib\ssl.py", line 365, in wrap_socket
+    _context=self)
+  File "C:\Python34\lib\ssl.py", line 583, in __init__
+    self.do_handshake()
+  File "C:\Python34\lib\ssl.py", line 810, in do_handshake
+    self._sslobj.do_handshake()
+ssl.SSLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:600)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python34\lib\site-packages\requests\adapters.py", line 423, in send
+    timeout=timeout
+  File "C:\Python34\lib\site-packages\requests\packages\urllib3\connectionpool.py", line 621, in urlopen
+    raise SSLError(e)
+requests.packages.urllib3.exceptions.SSLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:600)
