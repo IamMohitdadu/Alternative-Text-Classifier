@@ -97,3 +97,248 @@ http://escortigdir.xyz
 http://www.puduvaivaani.edu.in/
 
 ===============================================================================
+####################RESOLVED############################
+http://aucoe.info/
+Traceback (most recent call last):
+ssl.SSLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:600)
+    raise SSLError(e)
+requests.packages.urllib3.exceptions.SSLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:600)
+
+File "C:\Python34\lib\site-packages\requests\adapters.py", line 431, in send
+    raise SSLError(e, request=request)
+requests.exceptions.SSLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:600)
+
+#########################################################
+
+===============================================================================
+UNABLE TO FETCH IMAGE SIZE.
+
+http://jntuk.edu.in/vcdesk/assets//templates/vcdesk/images/icon_gallery.gif
+No Error Code for image url.. Proceeding to fetch image-size
+Image URL is :  http://jntuk.edu.in/vcdesk/assets//templates/vcdesk/images/icon_gallery.gif
+http://jntuk.edu.in/vcdesk/assets//templates/vcdesk/images/icon_videos.gif
+No Error Code for image url.. Proceeding to fetch image-size
+Image URL is :  http://jntuk.edu.in/vcdesk/assets//templates/vcdesk/images/icon_videos.gif
+http://jntuk.edu.in/vcdesk/assets//templates/vcdesk/images/icon_audio.gif
+No Error Code for image url.. Proceeding to fetch image-size
+Image URL is :  http://jntuk.edu.in/vcdesk/assets//templates/vcdesk/images/icon_audio.gif
+
+
+
+assets/templates/jntutemplates/images/banner_career.jpg
+No Error Code for image url.. Proceeding to fetch image-size
+Image URL is :  http://www.jntuk.edu.in/assets/templates/jntutemplates/images/banner_career.jpg
+assets/templates/jntutemplates/images/banner_industry.jpg
+No Error Code for image url.. Proceeding to fetch image-size
+Image URL is :  http://www.jntuk.edu.in/assets/templates/jntutemplates/images/banner_industry.jpg
+http://server4.web-stat.com/3/al231078.gif
+No Error Code for image url.. Proceeding to fetch image-size
+Image URL is :  http://server4.web-stat.com/3/al231078.gif
+1 1
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+http://www.jntua.ac.in
+Total 48 link printed
+
+
+No Error Code for image url.. Proceeding to fetch image-size
+Image URL is :  http://www.jntuk.edu.in/assets/images/edzelogo.gif
+assets/snippets/kalender/themes/gold/images/next_over.gif
+No Error Code for image url.. Proceeding to fetch image-size
+Image URL is :  http://www.jntuk.edu.in/assets/snippets/kalender/themes/gold/images/next_over.gif
+assets/snippets/kalender/themes/gold/images/jump_over.gif
+No Error Code for image url.. Proceeding to fetch image-size
+Image URL is :  http://www.jntuk.edu.in/assets/snippets/kalender/themes/gold/images/jump_over.gif
+assets/images/new_old.gif
+
+===============================================================================
+
+https://www.google.com/adsense/support/bin/request.py?contact=abg_afc&hideleadgen=1
+
+SSL error urlopen error EOF occurred in violation of protocol (_ssl.c:600)T
+
+
++++++++++Taking too much time to read by requests.get++++++++++++
+http://192.168.99.20/aau/?q=book/animal-biotechnology-0
+http://192.168.99.20/aau/?q=book/veterinary-public-health-0
+http://192.168.99.20/aau/?q=book/livestock-production-and-management
+http://192.168.99.20/aau/?q=book/veterinary-clinical-medicine-ethics-jurisprudence
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+++++++++++URL not returning any image size, despite it being a valid url++++++++
+http://www.dibru.ac.in/sliderimg/35.jpg
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+================================================================================
+
+++++++++++++++++++++++++HTTPS warning++++++++++++++++++++++++++++++++++++++++++
+Skiping to next link in <imgtag>
+
+ http://www.svimstpt.ap.nic.in/
+Internal Server Error..! Error Code: 503!
+
+ http://www.sedo.com/services/parking.php3?language=e&partnerid=20293
+/usr/local/lib/python3.4/dist-packages/requests/packages/urllib3/connectionpool.py:838: InsecureRequestWarning: Unverified HTTPS request is being made. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/security.html
+  InsecureRequestWarning)
+/usr/local/lib/python3.4/dist-packages/requests/packages/urllib3/connectionpool.py:838: InsecureRequestWarning: Unverified HTTPS request is being made. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/security.html
+  InsecureRequestWarning)
+Now printing all <img> tag one by one
+<img alt="" height="1082" src="https://cdn.sedo.com/fileadmin/user_upload/Park_Domains/Domain-Parking.jpg" width="1420"/>
+<img alt="" height="1082" src="https://cdn.sedo.com/fileadmin/user_upload/Park_Domains/Domain-Parking-Profis.jpg" width="1420"/>
+<img alt="" height="1082" src="https://cdn.sedo.com/fileadmin/user_upload/Park_Domains/Parking_50-50_1420x1082_EN.jpg" width="1420"/>
+<img alt="" height="1082" src="https://cdn.sedo.com/fileadmin/user_upload/Park_Domains/Parking_einrichten.jpg" width="1420"/>
+<img alt="" height="1082" src="https://cdn.sedo.com/fileadmin/user_upload/Sell_Domains/Domain_Auction/FAQ.jpg" width="1420"/>
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+=================================================================================
+
+++++++++++++++++URL takes forever to send reply [BAD GATEWAY]++++++++++++++++++++
+http://www.svvedicuniversity.org/cloud/news/pics/recruiters/infosys.png
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+third party urls found:
+
+SRC tag doesn't end with a valid image extention http://www.hit-counts.com/counter.php?t=MTMzMDAxMA==
+http://www.freehitcountercodes.com/counter.php?id=36
+href="http://gaberic.org/39.html
+http://www.jssor.com
+https://www.onlinesbi.com/prelogin/icollecthome.htm?corpID=480044
+http://www.ugc.ac.in
+https://www.google.com/search?hl=en&gl=us&tbm=nws&authuser=0&q=andhra+university&oq=andhra+university
+(andhrauniversity)http://www.aknudoa.in
+https://www.facebook.com/andhrauniversitydotedudotin/
+http://twitter.com/andhrauniversit
+http://wowslider.com/vu
+http://www.educationbihar.gov.in/
+http://governor.bih.nic.in/
+http://portal.gujarat.gov.in
+http://www.naac.gov.in/
+http://logicopedia.in/
+http://mhrd.gov.in/
+http://india.gov.in/
+http://www.gujaratindia.com/
+http://www.gswan.gov.in/
+http://www.gujaratinformatics.com/
+http://agri.gujarat.gov.in/
+http://www.imd.gov.in
+http://agri.ikhedut.aau.in/
+http://in.linkedin.com
+http://www.icar.org.in/
+http://www.sphererays.com/
+http://mysy.guj.nic.in/
+http://www.indiaveterinarycommunity.com/
+http://faq.ikhedut.aau.in/
+http://dare.nic.in
+http://gsauca.in/
+http://www.icar.org.in/
+http://financedepartment.gujarat.gov.in
+//////
+ http://ecourses.iasri.res.in/
+  http://www.vibrantgujarat.com/
+ http://shc.gujarat.gov.in/
+http://www.vidyalakshmi.co.in/
+ http://nisagenet.iasri.res.in/
+ http://www.ceo.gujarat.gov.in
+http://www.docs.google.com
+ http://www.continuouseduayu.com/ksharasutra.html
+ http://www.webinfinium.com
+ http://www.clat.ac.in/
+ https://goo.gl/forms/2EZMRjliOVDjIazT2
+sphererays.com','mysy.guj.nic.in',\
+    'indiaveterinarycommunity.com',
+    'dare.nic.in','gad.gujarat.gov.in',
+    'gsauca.in','faq.ikhedut.aau.in',\
+    'ecourses.iasri.res.in','icar.org.in',
+    'financedepartment.gujarat.gov.in',
+    'scholarships.gov.in',\
+    'nisagenet.iasri.res.in','gov.in',
+    'co.in','vibrantgujarat.com','shc.gujarat.gov.in',\
+    'vidyalakshmi.co.in','gmail.com']
+
+
+return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+UnicodeEncodeError: 'charmap' codec can't encode character '\u200f' in position 259: character maps to <undefined>
+[Finished in 1714.1s with exit code 1]
+
+warning::
+Image URL is :  http://aucoe.info/assets/images/logo_ico.png
+C:\Python34\lib\site-packages\requests\packages\urllib3\connectionpool.py:768: InsecureRequestWarning: Unverified HTTPS request is being made. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.org/en/latest/security.html
+  InsecureRequestWarning)
+URL http://aucoe.info/assets/images/logo_ico.png gets redirected....
+None None
+SRC tag doesn't end with a valid image extention //shield.sitelock.com/shield/aucoe.info
+
+
+ {
+ http://www.gtu.ac.in
+ Default.aspx
+Default.aspx
+page.aspx?p=AboutUs
+page.aspx?p=AboutUs
+page.aspx?p=TheVc
+VCMsgList.aspx
+page.aspx?p=Administration
+Achievements.aspx
+Affilation.aspx }
+
+http://www.jau.in
+	http://www.youtube.com//user/jaujnd
+	/
+	/index.php/academics-top
+	/coa
+	/coaa
+	/caet
+	/cof
+	/covs
+	/PGIABM
+	None
+  File "C:\Users\mohit\Documents\miniproject\secscrap.py", line 191, in subUrlFetch
+    if (temp.startswith('http') and (not(temp.endswith(tuple(extension))))):
+AttributeError: 'NoneType' object has no attribute 'startswith'
+
+UnicodeEncodeError: 'charmap' codec can't encode characters in position 12-14: character maps to <undefined>
+
+
+===============================================================================
+check the  .. in url. url looks right after checking on website, but not opening
+
+http://ntruhs.ap.nic.in/../Admissions/2016/pg/detailednotificationPGVacant.htm ++++ suburl ++++
+
+ http://ntruhs.ap.nic.in/../Admissions/2016/pg/detailednotificationPGVacant.htm
+Internal Server Error..! Error Code: 503!
+================================================================================
+
+To confirm about this being a university - http://nisagenet.iasri.res.in/Search.aspx
+
+This contains list of agriculture university across India.
+
+================================================================================
+
+date : 1/10/2016
+
+http://www.jntuk.edu.in/jntukbharatstudentcom/
+Traceback (most recent call last):
+  File "C:\Python34\lib\site-packages\requests\packages\urllib3\connectionpool.py", line 589, in urlopen
+    self._prepare_proxy(conn)
+  File "C:\Python34\lib\site-packages\requests\packages\urllib3\connectionpool.py", line 797, in _prepare_proxy
+    conn.connect()
+  File "C:\Python34\lib\site-packages\requests\packages\urllib3\connection.py", line 289, in connect
+    ssl_version=resolved_ssl_version)
+  File "C:\Python34\lib\site-packages\requests\packages\urllib3\util\ssl_.py", line 308, in ssl_wrap_socket
+    return context.wrap_socket(sock, server_hostname=server_hostname)
+  File "C:\Python34\lib\ssl.py", line 365, in wrap_socket
+    _context=self)
+  File "C:\Python34\lib\ssl.py", line 583, in __init__
+    self.do_handshake()
+  File "C:\Python34\lib\ssl.py", line 810, in do_handshake
+    self._sslobj.do_handshake()
+ssl.SSLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:600)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python34\lib\site-packages\requests\adapters.py", line 423, in send
+    timeout=timeout
+  File "C:\Python34\lib\site-packages\requests\packages\urllib3\connectionpool.py", line 621, in urlopen
+    raise SSLError(e)
+requests.packages.urllib3.exceptions.SSLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:600)

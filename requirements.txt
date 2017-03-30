@@ -1,0 +1,9 @@
+beautifulsoup4==4.5.1
+bs4==0.0.1
+idna==2.1
+Pillow==2.3.0
+requests==2.11.1
+requests-file==1.4.1
+six==1.10.0
+tldextract==2.0.1
+wheel==0.30.0a0
