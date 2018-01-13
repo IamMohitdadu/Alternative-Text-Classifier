@@ -1,3 +1,11 @@
+### Alternative Text Validator
+– Built datasets of alternative-text of Images for binary classifier using Web Scraping techninque in
+Python.
+– Trained the model using KNN, Naive Bayes and RandomForest algorithms on training datasets into
+categories- Valid/Invalid.
+– Classified the alternative text using machine learning with prediction accuracy of 93%.
+– Programming Language: Python
+
 ### 1. Requrements:
  - Python>=3.4
  - Pillow>=3.2.0
