@@ -1,4 +1,4 @@
-### Alternative Text Validator
+### Alternative Text Classifier
 – Built datasets of alternative-text of Images for binary classifier using Web Scraping techninque in
 Python.
 – Trained the model using KNN, Naive Bayes and RandomForest algorithms on training datasets into
